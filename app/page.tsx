@@ -67,9 +67,6 @@ export default function HomePage() {
         </p>
       </div>
 
-      {/* Search */}
-      <MovieSearch onSearch={handleSearch} />
-
       {/* Movie grid */}
       {movies.length === 0 ? (
         <p className="text-center text-gray-400 py-12">No movies found</p>
