@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Modal from "../common/Modal";
 import Input from "../common/Input";
+import Button from "../common/Button";
 
 interface LocationModalProps {
   isOpen: boolean;

@@ -13,6 +13,7 @@ import MobileMenuClose from "../usermenus/MobileMenuClose";
 import SearchBar from "./SearchBar";
 import LocationModal from "../modals/LocationModal";
 import AuthModal from "../modals/AuthModal";
+import { useLocation } from "@/app/context/LocationContext";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -21,7 +22,7 @@ export default function Navbar() {
   const [locationOpen, setLocationOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [selectedCity, setSelectedCity] = useState("Hyderabad");
+  const { city, setCity } = useLocation();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
@@ -66,7 +67,7 @@ export default function Navbar() {
               {/* Location selector */}
               <LocationSelectorButton
                 setLocationOpen={setLocationOpen}
-                selectedCity={selectedCity}
+                selectedCity={city}
                 isMobile={false}
               />
               {/*Auth section */}
@@ -108,7 +109,7 @@ export default function Navbar() {
               {/* Mobile location */}
               <LocationSelectorButton
                 setLocationOpen={setLocationOpen}
-                selectedCity={selectedCity}
+                selectedCity={city}
                 isMobile={true}
               />
             </div>
@@ -120,8 +121,8 @@ export default function Navbar() {
       <LocationModal
         isOpen={locationOpen}
         onClose={() => setLocationOpen(false)}
-        selectedCity={selectedCity}
-        onSelect={setSelectedCity}
+        selectedCity={city}
+        onSelect={setCity}
       />
       <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
     </>

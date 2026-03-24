@@ -1,15 +1,20 @@
+import { Movie } from "../types";
 import api from "./api";
 import { AxiosResponse } from "axios";
-import { Movie } from "../types";
 
 export const movieService = {
-  getAll: (): Promise<AxiosResponse<Movie[]>> => api.get("/movies"),
+  getAll: (city?: string): Promise<AxiosResponse<Movie[]>> =>
+    api.get(`/movies${city ? `?city=${encodeURIComponent(city)}` : ""}`),
+
   getById: (id: string): Promise<AxiosResponse<Movie>> =>
     api.get(`/movies/${id}`),
+
   search: (title: string): Promise<AxiosResponse<Movie[]>> =>
-    api.get(`/movies/search?title=${title}`),
+    api.get(`/movies?title=${encodeURIComponent(title)}`),
+
   getByLanguage: (language: string): Promise<AxiosResponse<Movie[]>> =>
-    api.get(`/movies/language/${language}`),
+    api.get(`/movies?language=${encodeURIComponent(language)}`),
+
   getByGenre: (genre: string): Promise<AxiosResponse<Movie[]>> =>
-    api.get(`/movies/genre/${genre}`),
+    api.get(`/movies?genre=${encodeURIComponent(genre)}`),
 };
