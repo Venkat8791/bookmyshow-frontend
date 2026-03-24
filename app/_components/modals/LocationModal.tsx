@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Modal from "../common/Modal";
+import Input from "../common/Input";
 
 interface LocationModalProps {
   isOpen: boolean;
@@ -81,11 +82,12 @@ export default function LocationModal({
               />
             </svg>
           </span>
-          <input
+          <Input
+            id="city"
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search for your city..."
+            placeholder="Search for you city.."
             autoFocus
             className="w-full bg-gray-800 text-white text-sm pl-9 pr-4 py-2.5 rounded-lg border border-gray-700 focus:outline-none focus:border-red-500 transition placeholder-gray-500"
           />

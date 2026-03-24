@@ -1,6 +1,8 @@
 import { useAuth } from "@/app/context/AuthContext";
 import { authService } from "@/app/services/authService";
 import { useState } from "react";
+import Input from "../common/Input";
+import Button from "../common/Button";
 
 interface RegisterFormProps {
   onClose: () => void;
@@ -46,88 +48,85 @@ export default function RegisterForm({ onClose }: RegisterFormProps) {
         </div>
       )}
       <form onSubmit={handleRegister} className="space-y-4">
-        <div>
-          <label className="text-gray-400 text-xs mb-1.5 block">
-            Full Name
-          </label>
-          <input
-            type="text"
-            value={registerForm.name}
-            onChange={(e) =>
-              setRegisterForm({ ...registerForm, name: e.target.value })
-            }
-            placeholder="John Doe"
-            required
-            className="w-full bg-gray-800 text-white text-sm px-4 py-2.5 rounded-lg border border-gray-700 focus:outline-none focus:border-red-500 transition placeholder-gray-600"
-          />
-        </div>
-        <div>
-          <label className="text-gray-400 text-xs mb-1.5 block">Email</label>
-          <input
-            type="email"
-            value={registerForm.email}
-            onChange={(e) =>
-              setRegisterForm({ ...registerForm, email: e.target.value })
-            }
-            placeholder="you@example.com"
-            required
-            className="w-full bg-gray-800 text-white text-sm px-4 py-2.5 rounded-lg border border-gray-700 focus:outline-none focus:border-red-500 transition placeholder-gray-600"
-          />
-        </div>
-        <div>
-          <label className="text-gray-400 text-xs mb-1.5 block">Phone</label>
-          <input
-            type="tel"
-            value={registerForm.phone}
-            onChange={(e) =>
-              setRegisterForm({ ...registerForm, phone: e.target.value })
-            }
-            placeholder="9876543210"
-            required
-            className="w-full bg-gray-800 text-white text-sm px-4 py-2.5 rounded-lg border border-gray-700 focus:outline-none focus:border-red-500 transition placeholder-gray-600"
-          />
-        </div>
-        <div>
-          <label className="text-gray-400 text-xs mb-1.5 block">Password</label>
-          <input
-            type="password"
-            value={registerForm.password}
-            onChange={(e) =>
-              setRegisterForm({
-                ...registerForm,
-                password: e.target.value,
-              })
-            }
-            placeholder="••••••••"
-            required
-            className="w-full bg-gray-800 text-white text-sm px-4 py-2.5 rounded-lg border border-gray-700 focus:outline-none focus:border-red-500 transition placeholder-gray-600"
-          />
-        </div>
-        <div>
-          <label className="text-gray-400 text-xs mb-1.5 block">
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            value={registerForm.confirmPassword}
-            onChange={(e) =>
-              setRegisterForm({
-                ...registerForm,
-                confirmPassword: e.target.value,
-              })
-            }
-            placeholder="••••••••"
-            required
-            className="w-full bg-gray-800 text-white text-sm px-4 py-2.5 rounded-lg border border-gray-700 focus:outline-none focus:border-red-500 transition placeholder-gray-600"
-          />
-        </div>
-        <button
+        <Input
+          type="text"
+          value={registerForm.name}
+          onChange={(e) =>
+            setRegisterForm({ ...registerForm, name: e.target.value })
+          }
+          label="Full Name"
+          id="name"
+          placeholder="John Doe"
+          labelClassName="text-gray-400 text-xs mb-1.5 block"
+          inputClassName="w-full bg-gray-800 text-white text-sm px-4 py-2.5 rounded-lg border border-gray-700 focus:outline-none focus:border-red-500 transition placeholder-gray-600"
+          required
+        />
+        <Input
+          type="email"
+          value={registerForm.email}
+          onChange={(e) =>
+            setRegisterForm({ ...registerForm, email: e.target.value })
+          }
+          label="Email"
+          id="email"
+          placeholder="you@example.com"
+          labelClassName="text-gray-400 text-xs mb-1.5 block"
+          inputClassName="w-full bg-gray-800 text-white text-sm px-4 py-2.5 rounded-lg border border-gray-700 focus:outline-none focus:border-red-500 transition placeholder-gray-600"
+          required
+        />
+        <Input
+          type="tel"
+          value={registerForm.phone}
+          onChange={(e) =>
+            setRegisterForm({ ...registerForm, phone: e.target.value })
+          }
+          label="Phone"
+          id="phone"
+          placeholder="9876543210"
+          labelClassName="text-gray-400 text-xs mb-1.5 block"
+          inputClassName="w-full bg-gray-800 text-white text-sm px-4 py-2.5 rounded-lg border border-gray-700 focus:outline-none focus:border-red-500 transition placeholder-gray-600"
+          required
+        />
+        <Input
+          type="password"
+          value={registerForm.password}
+          onChange={(e) =>
+            setRegisterForm({
+              ...registerForm,
+              password: e.target.value,
+            })
+          }
+          label="Password"
+          id="password"
+          placeholder="••••••••"
+          labelClassName="text-gray-400 text-xs mb-1.5 block"
+          inputClassName="w-full bg-gray-800 text-white text-sm px-4 py-2.5 rounded-lg border border-gray-700 focus:outline-none focus:border-red-500 transition placeholder-gray-600"
+          required
+        />
+        <Input
+          type="password"
+          value={registerForm.confirmPassword}
+          onChange={(e) =>
+            setRegisterForm({
+              ...registerForm,
+              confirmPassword: e.target.value,
+            })
+          }
+          label="Confirm Password"
+          id="confirmPassword"
+          placeholder="••••••••"
+          labelClassName="text-gray-400 text-xs mb-1.5 block"
+          inputClassName="w-full bg-gray-800 text-white text-sm px-4 py-2.5 rounded-lg border border-gray-700 focus:outline-none focus:border-red-500 transition placeholder-gray-600"
+          required
+        />
+
+        <Button
           type="submit"
           disabled={loading}
           className="w-full bg-red-500 hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-2.5 rounded-lg transition mt-2"
         >
           {loading ? "Creating account..." : "Create Account"}
-        </button>
+        </Button>
       </form>
     </>
   );
