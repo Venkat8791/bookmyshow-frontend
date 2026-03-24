@@ -4,6 +4,8 @@ import { Movie } from "@/app/types";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import MovieCard from "../movies/MovieCard";
+import LoadingSpinner from "../common/LoadingSpinner";
+import ErrorAlert from "../common/ErrorAlert";
 
 export default function HomeContent() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -32,15 +34,9 @@ export default function HomeContent() {
     fetchMovies();
   }, [city, search]);
 
-  if (loading)
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500" />
-      </div>
-    );
+  if (loading) return <LoadingSpinner />;
 
-  if (error)
-    return <div className="text-center text-red-400 py-12">{error}</div>;
+  if (error) return <ErrorAlert message={error} />;
 
   return (
     <div>

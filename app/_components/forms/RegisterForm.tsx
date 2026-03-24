@@ -3,6 +3,7 @@ import { authService } from "@/app/services/authService";
 import { useState } from "react";
 import Input from "../common/Input";
 import Button from "../common/Button";
+import ErrorAlert from "../common/ErrorAlert";
 
 interface RegisterFormProps {
   onClose: () => void;
@@ -42,11 +43,7 @@ export default function RegisterForm({ onClose }: RegisterFormProps) {
 
   return (
     <>
-      {error && (
-        <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm px-4 py-3 rounded-lg mb-4">
-          {error}
-        </div>
-      )}
+      {error && <ErrorAlert message={error} />}
       <form onSubmit={handleRegister} className="space-y-4">
         <Input
           type="text"

@@ -3,6 +3,7 @@ import { authService } from "@/app/services/authService";
 import { useEffect, useState } from "react";
 import Input from "../common/Input";
 import Button from "../common/Button";
+import ErrorAlert from "../common/ErrorAlert";
 
 interface LoginFormProps {
   onClose: () => void;
@@ -31,11 +32,7 @@ export default function LoginForm({ onClose }: LoginFormProps) {
 
   return (
     <>
-      {error && (
-        <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm px-4 py-3 rounded-lg mb-4">
-          {error}
-        </div>
-      )}
+      {error && <ErrorAlert message={error} />}
       <form onSubmit={handleLogin} className="space-y-4">
         <Input
           type="email"
