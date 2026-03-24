@@ -14,38 +14,23 @@ export default function HomeContent() {
   const search = searchParams.get("search");
 
   useEffect(() => {
-    if (search) {
-      fetchBySearch(search);
-    } else {
-      fetchByCity();
-    }
+    const fetchMovies = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = search
+          ? await movieService.search(search)
+          : await movieService.getAll(city);
+        setMovies(response.data);
+      } catch (err) {
+        setError(search ? "Search failed" : "Failed to load movies.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovies();
   }, [city, search]);
-
-  const fetchByCity = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await movieService.getAll(city);
-      setMovies(response.data);
-    } catch (err) {
-      setError("Failed to load movies.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchBySearch = async (query: string) => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await movieService.search(query);
-      setMovies(response.data);
-    } catch (err) {
-      setError("Search failed");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading)
     return (

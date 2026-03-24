@@ -26,7 +26,7 @@ export default function Modal({
       className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center px-4"
       onClick={onClose}
     >
-      <div className={className} onClick={(e) => e.stopPropagation()}>
+      <div className={className} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
         {children}
       </div>
     </div>
@@ -39,6 +39,7 @@ Modal.Header = function ModalHeader({ title, onClose }: ModalHeaderProps) {
       <h2 className="text-white font-semibold text-lg">{title}</h2>
       <button
         onClick={onClose}
+        aria-label="Close"
         className="text-gray-400 hover:text-white transition"
       >
         <svg

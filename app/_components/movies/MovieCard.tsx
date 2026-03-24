@@ -1,4 +1,5 @@
 import { Movie } from "@/app/types";
+import Image from "next/image";
 import Link from "next/link";
 
 interface MovieCardProps {
@@ -11,10 +12,11 @@ export default function MovieCard({ movie }: MovieCardProps) {
       <div className="bg-gray-900 rounded-xl overflow-hidden hover:scale-105 transition-transform duration-200 cursor-pointer">
         <div className="relative h-72 bg-gray-800">
           {movie.posterUrl ? (
-            <img
+            <Image
               src={movie.posterUrl}
               alt={movie.title}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
