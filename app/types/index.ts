@@ -102,3 +102,24 @@ export interface ErrorResponse {
   path: string;
   timestamp: string;
 }
+
+export interface ShowSummary {
+  showId: string;
+  showTime: string;
+  priceMultiplier: number;
+  status: string;
+}
+
+export interface ScreenShows {
+  screenId: string;
+  screenName: string;
+  screenType: string;
+  shows: ShowSummary[];
+}
+
+export interface ShowsByTheatre {
+  theatreId: string;
+  theatreName: string;
+  theatreAddress: string;
+  screens: ScreenShows[];
+}
