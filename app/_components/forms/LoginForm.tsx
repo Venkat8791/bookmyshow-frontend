@@ -1,6 +1,6 @@
 import { useAuth } from "@/app/context/AuthContext";
 import { authService } from "@/app/services/authService";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import ErrorAlert from "../common/ErrorAlert";

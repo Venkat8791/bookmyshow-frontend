@@ -28,7 +28,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // initialize directly — no useEffect needed
   const [user, setUser] = useState<User | null>(getStoredUser);
   const [token, setToken] = useState<string | null>(getStoredToken);
-
   const login = (userData: User, jwtToken: string) => {
     localStorage.setItem("token", jwtToken);
     localStorage.setItem("user", JSON.stringify(userData));

@@ -3,7 +3,7 @@
 import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import LocationSelectorButton from "./LocationSelectorButton";
 import UserName from "../usermenus/UserName";
 import UserDropDown from "../usermenus/UserDropDown";
@@ -17,6 +17,12 @@ import { useLocation } from "@/app/context/LocationContext";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+
   const router = useRouter();
 
   const [locationOpen, setLocationOpen] = useState(false);
@@ -71,23 +77,28 @@ export default function Navbar() {
                 isMobile={false}
               />
               {/*Auth section */}
-              {user ? (
-                <div className="relative" ref={userMenuRef}>
-                  <UserName
-                    user={user}
-                    userMenuOpen={userMenuOpen}
-                    setUserMenuOpen={setUserMenuOpen}
-                  />
-                  {userMenuOpen && (
-                    <UserDropDown
+              {mounted ? (
+                user ? (
+                  <div className="relative" ref={userMenuRef}>
+                    <UserName
                       user={user}
+                      userMenuOpen={userMenuOpen}
                       setUserMenuOpen={setUserMenuOpen}
-                      handleLogout={handleLogout}
                     />
-                  )}
-                </div>
+                    {userMenuOpen && (
+                      <UserDropDown
+                        user={user}
+                        setUserMenuOpen={setUserMenuOpen}
+                        handleLogout={handleLogout}
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <SignInButton setAuthOpen={setAuthOpen} />
+                )
               ) : (
-                <SignInButton setAuthOpen={setAuthOpen} />
+                // render placeholder same size as Sign In button to avoid layout shift
+                <div className="w-20 h-9" />
               )}
 
               {/* Mobile menu button */}
