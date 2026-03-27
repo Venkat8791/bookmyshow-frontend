@@ -102,7 +102,6 @@ export default function SeatLayoutPage() {
 
   const handleBook = async () => {
     if (!user) {
-      console.log("user not found");
       window.dispatchEvent(new CustomEvent("unauthorized"));
       return;
     }

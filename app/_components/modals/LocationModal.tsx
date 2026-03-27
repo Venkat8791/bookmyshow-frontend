@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Modal from "../common/Modal";
 import Input from "../common/Input";
 import Button from "../common/Button";
@@ -35,22 +35,6 @@ export default function LocationModal({
   onSelect,
 }: LocationModalProps) {
   const [search, setSearch] = useState("");
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        onClose();
-      }
-    };
-    if (!isOpen) {
-      return;
-    }
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClick);
-    }
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [isOpen, onClose]);
 
   const filtered = CITIES.filter((c) =>
     c.toLowerCase().includes(search.toLowerCase()),
@@ -88,7 +72,7 @@ export default function LocationModal({
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search for you city.."
+            placeholder="Search for your city.."
             autoFocus
             className="w-full bg-gray-800 text-white text-sm pl-9 pr-4 py-2.5 rounded-lg border border-gray-700 focus:outline-none focus:border-red-500 transition placeholder-gray-500"
           />
