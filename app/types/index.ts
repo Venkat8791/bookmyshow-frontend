@@ -41,8 +41,9 @@ export interface Show {
 export interface SeatAvailability {
   seatId: string | null;
   columnNumber: number;
-  isGap: boolean;
-  isBlocked: boolean;
+  seatLabel: string;
+  gap: boolean;
+  blocked: boolean;
   status: "AVAILABLE" | "PENDING" | "BOOKED" | "BLOCKED" | null;
 }
 
