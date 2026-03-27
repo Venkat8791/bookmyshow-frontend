@@ -1,3 +1,5 @@
+import Button from "./Button";
+
 interface LocationSelectorButtonProps {
   setLocationOpen: (value: boolean) => void;
   selectedCity: string;
@@ -10,7 +12,7 @@ export default function LocationSelectorButton({
   isMobile,
 }: LocationSelectorButtonProps) {
   return (
-    <button
+    <Button
       onClick={() => setLocationOpen(true)}
       className={`${isMobile ? "flex gap-2 w-full py-2.5" : "hidden sm:flex gap-1.5 py-2"} items-center  text-gray-300 hover:text-white text-sm px-3 rounded-lg hover:bg-gray-800 transition`}
     >
@@ -35,6 +37,6 @@ export default function LocationSelectorButton({
           d="M19 9l-7 7-7-7"
         />
       </svg>
-    </button>
+    </Button>
   );
 }

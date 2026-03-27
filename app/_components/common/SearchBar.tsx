@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Input from "./Input";
 
 export default function SearchBar({ isMobile }: { isMobile: boolean }) {
   const [query, setQuery] = useState("");
@@ -32,7 +33,8 @@ export default function SearchBar({ isMobile }: { isMobile: boolean }) {
           />
         </svg>
       </span>
-      <input
+      <Input
+        id="query"
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}

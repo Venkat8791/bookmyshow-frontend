@@ -1,4 +1,5 @@
 import { User } from "@/app/types";
+import Button from "../common/Button";
 
 interface UserDropDownProps {
   user: User;
@@ -12,7 +13,7 @@ export default function UserName({
   setUserMenuOpen,
 }: UserDropDownProps) {
   return (
-    <button
+    <Button
       onClick={() => setUserMenuOpen(!userMenuOpen)}
       className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-2 rounded-lg transition"
     >
@@ -33,6 +34,6 @@ export default function UserName({
           d="M19 9l-7 7-7-7"
         />
       </svg>
-    </button>
+    </Button>
   );
 }

@@ -1,4 +1,5 @@
-import { formatDate, formatDateLabel } from "./DateUtils";
+import { formatDate, formatDateLabel } from "@/app/utils/dateUtils";
+import Button from "../common/Button";
 
 interface DateSelectorProps {
   dates: Date[];
@@ -17,7 +18,7 @@ export default function DateSelector({
         const dateStr = formatDate(date);
         const isSelected = selectedDate === dateStr;
         return (
-          <button
+          <Button
             key={dateStr}
             onClick={() => onSelect(dateStr)}
             className={`flex-shrink-0 px-4 py-2.5 rounded-xl text-sm font-medium transition
@@ -28,7 +29,7 @@ export default function DateSelector({
                             }`}
           >
             {formatDateLabel(date, index)}
-          </button>
+          </Button>
         );
       })}
     </div>

@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import Button from "./Button";
 
 interface ModalProps {
   children: React.ReactNode;
@@ -26,7 +27,12 @@ export default function Modal({
       className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center px-4"
       onClick={onClose}
     >
-      <div className={className} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+      <div
+        className={className}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+      >
         {children}
       </div>
     </div>
@@ -37,7 +43,7 @@ Modal.Header = function ModalHeader({ title, onClose }: ModalHeaderProps) {
   return (
     <div className="flex items-center justify-between px-5 py-4 border-b border-gray-800">
       <h2 className="text-white font-semibold text-lg">{title}</h2>
-      <button
+      <Button
         onClick={onClose}
         aria-label="Close"
         className="text-gray-400 hover:text-white transition"
@@ -55,7 +61,7 @@ Modal.Header = function ModalHeader({ title, onClose }: ModalHeaderProps) {
             d="M6 18L18 6M6 6l12 12"
           />
         </svg>
-      </button>
+      </Button>
     </div>
   );
 };

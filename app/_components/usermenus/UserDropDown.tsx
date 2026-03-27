@@ -1,5 +1,6 @@
 import { User } from "@/app/types";
 import Link from "next/link";
+import Button from "../common/Button";
 
 interface UserDropDownProps {
   user: User;
@@ -38,7 +39,7 @@ export default function UserDropDown({
         </svg>
         My Bookings
       </Link>
-      <button
+      <Button
         onClick={handleLogout}
         className="flex items-center gap-2 w-full px-4 py-3 text-red-400 hover:text-red-300 hover:bg-gray-700 text-sm transition"
       >
@@ -56,7 +57,7 @@ export default function UserDropDown({
           />
         </svg>
         Sign Out
-      </button>
+      </Button>
     </div>
   );
 }

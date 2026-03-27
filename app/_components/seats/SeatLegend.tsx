@@ -1,6 +1,6 @@
 export default function SeatLegend() {
   return (
-    <div className="flex items-center gap-5">
+    <div className="grid grid-cols-2 min-[321px]:flex min-[321px]:items-center gap-3 min-[321px]:gap-5">
       {[
         { fill: "transparent", border: "#16a34a", label: "Available" },
         { fill: "#16a34a", border: "#4ade80", label: "Selected" },

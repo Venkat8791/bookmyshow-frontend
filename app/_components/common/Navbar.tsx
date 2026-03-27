@@ -8,12 +8,13 @@ import LocationSelectorButton from "./LocationSelectorButton";
 import UserName from "../usermenus/UserName";
 import UserDropDown from "../usermenus/UserDropDown";
 import SignInButton from "../usermenus/SignInButton";
-import MobileMenuOpen from "../usermenus/MobileMenuOpen";
-import MobileMenuClose from "../usermenus/MobileMenuClose";
+import MobileMenuOpen from "./MobileMenuOpen";
+import MobileMenuClose from "./MobileMenuClose";
 import SearchBar from "./SearchBar";
 import LocationModal from "../modals/LocationModal";
 import AuthModal from "../modals/AuthModal";
 import { useLocation } from "@/app/context/LocationContext";
+import Button from "./Button";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -102,12 +103,12 @@ export default function Navbar() {
               )}
 
               {/* Mobile menu button */}
-              <button
+              <Button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="sm:hidden p-2 text-gray-400 hover:text-white transition"
               >
                 {mobileMenuOpen ? <MobileMenuOpen /> : <MobileMenuClose />}
-              </button>
+              </Button>
             </div>
           </div>
 

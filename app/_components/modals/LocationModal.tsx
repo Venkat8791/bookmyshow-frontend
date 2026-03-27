@@ -102,9 +102,9 @@ export default function LocationModal({
             No cities found
           </p>
         ) : (
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 min-[360px]:grid-cols-3 gap-2">
             {filtered.map((city) => (
-              <button
+              <Button
                 key={city}
                 onClick={() => {
                   onSelect(city);
@@ -118,7 +118,7 @@ export default function LocationModal({
                     }`}
               >
                 {city}
-              </button>
+              </Button>
             ))}
           </div>
         )}

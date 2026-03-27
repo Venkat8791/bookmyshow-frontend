@@ -1,9 +1,9 @@
 "use client";
 
 import LoadingSpinner from "@/app/_components/common/LoadingSpinner";
+import BookingFooter from "@/app/_components/seats/BookingFooter";
 import SeatCanvas from "@/app/_components/seats/SeatCanvas";
-import SeatLegend from "@/app/_components/seats/SeatLegend";
-import ShowTimePill from "@/app/_components/seats/ShowTimePill";
+import SeatLayoutHeader from "@/app/_components/seats/SeatLayoutHeader";
 import { useAuth } from "@/app/context/AuthContext";
 import { bookingService } from "@/app/services/bookingService";
 import { showService } from "@/app/services/showService";
@@ -135,20 +135,10 @@ export default function SeatLayoutPage() {
       return acc + count * section.finalPrice;
     }, 0) ?? 0;
 
-  // format show time
-  const formatTime = (isoString: string) => {
-    return new Date(isoString).toLocaleTimeString("en-IN", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
-
   if (loading) {
     return <LoadingSpinner />;
   }
 
-  // ── Error ────────────────────────────────────────────────────────────────
   if (error || !layout || !show) {
     return (
       <div
@@ -170,72 +160,19 @@ export default function SeatLayoutPage() {
 
   const canvasSections = toCanvasSections(layout);
 
-  // Flex column filling exactly the space below the sticky navbar (h-16 = 64px).
-  // - header bar: shrink-0, fixed height
-  // - canvas:     flex-1 + min-h-0 → takes ALL remaining space
-  // - footer:     shrink-0, always visible, grows when seats are selected
-  // ── Main layout ──────────────────────────────────────────────────────────
   return (
     <div
       className="flex flex-col -mx-4 -my-6"
       style={{ height: "calc(100vh - 64px)" }}
     >
-      {/* ── Header ── */}
-      <div className="shrink-0 px-6 py-3 border-b border-gray-800 bg-gray-900">
-        <div className="flex items-center justify-between">
-          {/* back button + movie info */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => router.back()}
-              className="text-gray-400 hover:text-white transition"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-            <div>
-              <h1 className="text-white font-semibold text-base leading-tight">
-                {/* movie title would need a separate fetch — show screenId for now */}
-                Seat Selection
-              </h1>
-              <p className="text-gray-400 text-xs mt-0.5">
-                {formatTime(show.showTime)}
-                {show.status && (
-                  <span className="ml-2 text-gray-600">• {show.status}</span>
-                )}
-              </p>
-            </div>
-          </div>
+      <SeatLayoutHeader
+        show={show}
+        siblingShows={siblingShows}
+        showId={showId}
+        onBack={() => router.back()}
+        onShowSelect={(id) => router.push(`/shows/${id}/seats`)}
+      />
 
-          {/* show time switcher */}
-          {siblingShows.length > 1 && (
-            <div className="flex items-center gap-2 overflow-x-auto max-w-sm">
-              {siblingShows
-                .filter((s) => s.status === "ACTIVE")
-                .map((s) => (
-                  <ShowTimePill
-                    key={s.id}
-                    time={formatTime(s.showTime)}
-                    isActive={s.id === showId}
-                    onClick={() => router.push(`/shows/${s.id}/seats`)}
-                  />
-                ))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* ── Canvas ── */}
       <div className="flex-1 min-h-0 bg-gray-950">
         <SeatCanvas
           sections={canvasSections}
@@ -244,40 +181,13 @@ export default function SeatLayoutPage() {
         />
       </div>
 
-      {/* ── Footer ── */}
-      <div className="shrink-0 border-t border-gray-800 bg-gray-900 px-6">
-        {/* legend — always visible */}
-        <div className="py-3 border-b border-gray-800">
-          <SeatLegend />
-        </div>
-
-        {/* booking summary — grows when seats selected */}
-        {selectedSeats.size === 0 ? (
-          <div className="py-3 text-center text-gray-500 text-sm">
-            Select seats to continue
-          </div>
-        ) : (
-          <div className="py-4 flex items-center justify-between gap-4">
-            <div>
-              <p className="text-white text-sm font-medium">
-                {selectedSeats.size} seat{selectedSeats.size > 1 ? "s" : ""}{" "}
-                selected
-              </p>
-              <p className="text-green-400 font-bold text-lg">
-                ₹{total.toFixed(2)}
-              </p>
-              {error && <p className="text-red-400 text-xs mt-0.5">{error}</p>}
-            </div>
-            <button
-              onClick={handleBook}
-              disabled={bookingLoading}
-              className="bg-red-500 hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold px-8 py-3 rounded-xl transition whitespace-nowrap"
-            >
-              {bookingLoading ? "Booking..." : "Book Now"}
-            </button>
-          </div>
-        )}
-      </div>
+      <BookingFooter
+        selectedSeats={selectedSeats}
+        total={total}
+        error={error}
+        bookingLoading={bookingLoading}
+        onBook={handleBook}
+      />
     </div>
   );
 }

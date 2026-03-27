@@ -1,3 +1,5 @@
+import Button from "../common/Button";
+
 interface ShowTimeButtonProps {
   show: { showId: string; showTime: string; status: string };
   onClick: () => void;
@@ -6,7 +8,7 @@ interface ShowTimeButtonProps {
 export default function ShowTimeButton({ show, onClick }: ShowTimeButtonProps) {
   const isAvailable = show.status === "ACTIVE";
   return (
-    <button
+    <Button
       onClick={onClick}
       disabled={!isAvailable}
       className={`px-4 py-2 rounded-lg text-sm font-medium border transition
@@ -17,6 +19,6 @@ export default function ShowTimeButton({ show, onClick }: ShowTimeButtonProps) {
                 }`}
     >
       {show.showTime}
-    </button>
+    </Button>
   );
 }

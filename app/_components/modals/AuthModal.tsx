@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Modal from "../common/Modal";
 import LoginForm from "../forms/LoginForm";
 import RegisterForm from "../forms/RegisterForm";
+import Button from "../common/Button";
 
 type AuthMode = "login" | "register";
 
@@ -33,7 +34,7 @@ export default function AuthModal({
       {/* Tabs */}
       <div className="flex border-b border-gray-800">
         {(["login", "register"] as AuthMode[]).map((m) => (
-          <button
+          <Button
             key={m}
             onClick={() => {
               setMode(m);
@@ -46,7 +47,7 @@ export default function AuthModal({
                 }`}
           >
             {m === "login" ? "Sign In" : "Register"}
-          </button>
+          </Button>
         ))}
       </div>
 
