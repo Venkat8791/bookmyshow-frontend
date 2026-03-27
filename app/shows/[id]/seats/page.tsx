@@ -76,7 +76,12 @@ export default function SeatLayoutPage() {
         //fetch sibling shows for same movie
         const siblingRes = await showService.getByMovie(showRes.data.movieId);
         if (!isMounted.current) return;
-        setSibilingShows(siblingRes.data);
+        const now = new Date();
+        setSibilingShows(
+          siblingRes.data.filter(
+            (s: Show) => new Date(s.showTime) > now
+          )
+        );
       } catch (err: any) {
         if (axios.isCancel(err)) return;
         if (isMounted.current) setError("Failed to load seat layout");

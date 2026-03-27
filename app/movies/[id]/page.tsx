@@ -62,8 +62,26 @@ export default function MovieDetailPage() {
           city,
           selectedDate,
         );
-        setTheatreShows(response.data);
-      } catch (err: any) {
+        const now = new Date();
+        const today = formatDate(now);
+        const data: ShowsByTheatre[] =
+          selectedDate === today
+            ? response.data
+                .map((theatre: ShowsByTheatre) => ({
+                  ...theatre,
+                  screens: theatre.screens
+                    .map((screen) => ({
+                      ...screen,
+                      shows: screen.shows.filter(
+                        (s) => new Date(`${selectedDate} ${s.showTime}`) > now
+                      ),
+                    }))
+                    .filter((screen) => screen.shows.length > 0),
+                }))
+                .filter((theatre: ShowsByTheatre) => theatre.screens.length > 0)
+            : response.data;
+        setTheatreShows(data);
+      } catch {
         setTheatreShows([]);
       } finally {
         setShowsLoading(false);

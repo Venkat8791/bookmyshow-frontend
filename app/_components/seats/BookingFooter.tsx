@@ -43,7 +43,7 @@ export default function BookingFooter({
           <Button
             onClick={onBook}
             disabled={bookingLoading}
-            className="bg-red-500 hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold px-8 py-3 rounded-xl transition whitespace-nowrap"
+            className="bg-red-500 hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold px-8 py-3 rounded-xl transition whitespace-nowrap hover:cursor-pointer"
           >
             {bookingLoading ? "Booking..." : "Book Now"}
           </Button>

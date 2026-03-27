@@ -69,6 +69,7 @@ export interface BookedSeat {
   seatId: string;
   rowLabel: string;
   columnNumber: number;
+  seatLabel: string;
   seatType: string;
   price: number;
 }
