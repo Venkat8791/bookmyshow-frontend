@@ -2,6 +2,7 @@
 
 import { createContext, ReactNode, useContext, useState } from "react";
 import { User } from "../types";
+import { jwtDecode } from "jwt-decode";
 
 interface AuthContextType {
   user: User | null;
@@ -12,16 +13,39 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+const isTokenExpired = (token: string): boolean => {
+  try {
+    const decoded = jwtDecode<{ exp: number }>(token);
+    return decoded.exp * 1000 < Date.now();
+  } catch {
+    return true;
+  }
+};
+
 // helper to safely read from localStorage
 const getStoredUser = (): User | null => {
   if (typeof window === "undefined") return null;
+  const token = localStorage.getItem("token");
   const saved = localStorage.getItem("user");
-  return saved ? JSON.parse(saved) : null;
+  if (!token || !saved) return null;
+  if (isTokenExpired(token)) {
+    // clean up stale data
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    return null;
+  }
+  return JSON.parse(saved);
 };
 
 const getStoredToken = (): string | null => {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem("token");
+  const token = localStorage.getItem("token");
+  if (!token || isTokenExpired(token)) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    return null;
+  }
+  return token;
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
