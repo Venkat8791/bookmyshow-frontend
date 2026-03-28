@@ -1,9 +1,19 @@
-import { Booking } from "@/app/types";
+import { Booking, Movie, Show } from "@/app/types";
 import { useRouter } from "next/navigation";
 import useCountdown from "../hooks/useCountdown";
 import BookingSummaryCard from "./BookingSummaryCard";
 import ErrorAlert from "../common/ErrorAlert";
 import Button from "../common/Button";
+import MovieInfo from "./MovieInfo";
+
+interface PendingPaymentProps {
+  booking: Booking;
+  onPay: () => void;
+  loading: boolean;
+  error: string | null;
+  show: Show | null;
+  movie: Movie | null;
+}
 
 // ── Pending payment ───────────────────────────────────────────────────────────
 export default function PendingPayment({
@@ -11,12 +21,9 @@ export default function PendingPayment({
   onPay,
   loading,
   error,
-}: {
-  booking: Booking;
-  onPay: () => void;
-  loading: boolean;
-  error: string | null;
-}) {
+  show,
+  movie,
+}: PendingPaymentProps) {
   const { mins, secs, isExpired, isUrgent } = useCountdown(booking.expiresAt);
   const router = useRouter();
 
@@ -59,6 +66,9 @@ export default function PendingPayment({
       <p className="text-gray-400 text-sm mb-6">
         Your seats are held temporarily
       </p>
+
+      {/* movie info ← add here */}
+      {movie && show && <MovieInfo movie={movie} show={show} />}
 
       {/* countdown timer */}
       <div

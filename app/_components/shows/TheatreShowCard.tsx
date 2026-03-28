@@ -26,20 +26,13 @@ export default function TheatreShowsCard({
       <div className="space-y-4">
         {theatre.screens.map((screen) => (
           <div key={screen.screenId}>
-            {/* Screen info */}
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-gray-400 text-sm">{screen.screenName}</span>
-              <span className="bg-gray-800 text-gray-400 text-xs px-2 py-0.5 rounded">
-                {screen.screenType}
-              </span>
-            </div>
-
             {/* Show times */}
             <div className="flex flex-wrap gap-2">
               {screen.shows.map((show) => (
                 <ShowTimeButton
                   key={show.showId}
                   show={show}
+                  screenType={screen.screenType}
                   onClick={() => onShowSelect(show.showId)}
                 />
               ))}

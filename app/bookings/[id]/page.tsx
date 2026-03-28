@@ -4,7 +4,9 @@ import ConfirmedTicket from "@/app/_components/bookings/ConfirmedTicket";
 import PendingPayment from "@/app/_components/bookings/PendingPayment";
 import LoadingSpinner from "@/app/_components/common/LoadingSpinner";
 import { bookingService } from "@/app/services/bookingService";
-import { Booking } from "@/app/types";
+import { movieService } from "@/app/services/movieService";
+import { showService } from "@/app/services/showService";
+import { Booking, Movie, Show } from "@/app/types";
 import axios from "axios";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -16,6 +18,8 @@ export default function BookingConfirmationPage() {
   const isMounted = useRef(true);
 
   const [booking, setBooking] = useState<Booking | null>(null);
+  const [show, setShow] = useState<Show | null>(null);
+  const [movie, setMovie] = useState<Movie | null>(null);
   const [loading, setLoading] = useState(true);
   const [payLoading, setPayLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,8 +39,20 @@ export default function BookingConfirmationPage() {
     const fetchBooking = async () => {
       try {
         setLoading(true);
-        const response = await bookingService.getById(bookingId);
-        if (isMounted.current) setBooking(response.data);
+        // step 1 — fetch booking
+        const bookingRes = await bookingService.getById(bookingId);
+        if (!isMounted.current) return;
+        setBooking(bookingRes.data);
+
+        // step 2 — fetch show
+        const showRes = await showService.getById(bookingRes.data.showId);
+        if (!isMounted.current) return;
+        setShow(showRes.data);
+
+        // step 3 — fetch movie
+        const movieRes = await movieService.getById(showRes.data.movieId);
+        if (!isMounted.current) return;
+        setMovie(movieRes.data);
       } catch (err: any) {
         if (axios.isCancel(err)) return;
         if (isMounted.current) setError("Failed to load booking");
@@ -92,7 +108,7 @@ export default function BookingConfirmationPage() {
   return (
     <div className="max-w-md mx-auto py-8 px-4">
       {booking.status === "CONFIRMED" ? (
-        <ConfirmedTicket booking={booking} />
+        <ConfirmedTicket show={show} movie={movie} booking={booking} />
       ) : booking.status === "CANCELLED" ? (
         <div className="flex flex-col items-center text-center">
           <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mb-4">
@@ -129,6 +145,8 @@ export default function BookingConfirmationPage() {
           onPay={handlePay}
           loading={payLoading}
           error={payError}
+          show={show}
+          movie={movie}
         />
       )}
     </div>

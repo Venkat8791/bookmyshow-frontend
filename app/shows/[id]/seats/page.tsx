@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/app/_components/common/Button";
 import LoadingSpinner from "@/app/_components/common/LoadingSpinner";
 import BookingFooter from "@/app/_components/seats/BookingFooter";
 import SeatCanvas from "@/app/_components/seats/SeatCanvas";
@@ -78,9 +79,7 @@ export default function SeatLayoutPage() {
         if (!isMounted.current) return;
         const now = new Date();
         setSibilingShows(
-          siblingRes.data.filter(
-            (s: Show) => new Date(s.showTime) > now
-          )
+          siblingRes.data.filter((s: Show) => new Date(s.showTime) > now),
         );
       } catch (err: any) {
         if (axios.isCancel(err)) return;
@@ -151,12 +150,12 @@ export default function SeatLayoutPage() {
       >
         <div className="text-center">
           <p className="text-red-400 mb-4">{error || "Failed to load"}</p>
-          <button
+          <Button
             onClick={() => router.back()}
             className="text-gray-400 hover:text-white text-sm transition"
           >
             ← Go back
-          </button>
+          </Button>
         </div>
       </div>
     );
