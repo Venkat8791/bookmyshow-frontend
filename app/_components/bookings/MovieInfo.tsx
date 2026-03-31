@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Movie, Show } from "@/app/types";
 
 export default function MovieInfo({
@@ -10,12 +11,13 @@ export default function MovieInfo({
   return (
     <div className="flex gap-4 w-full bg-gray-800/50 border border-gray-700 rounded-2xl p-4 mb-6">
       {/* poster */}
-      <div className="flex-shrink-0 w-16 h-24 bg-gray-800 rounded-xl overflow-hidden">
+      <div className="relative shrink-0 w-16 h-24 bg-gray-800 rounded-xl overflow-hidden">
         {movie.posterUrl ? (
-          <img
+          <Image
             src={movie.posterUrl}
             alt={movie.title}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-2xl">
