@@ -1,3 +1,5 @@
+import Button from "@/app/_components/common/Button";
+
 // ── Filter tabs ───────────────────────────────────────────────────────────────
 type FilterType = "ALL" | "CONFIRMED" | "PENDING" | "CANCELLED";
 
@@ -17,7 +19,7 @@ export default function FilterTabs({
   return (
     <div className="flex gap-2 overflow-x-auto pb-1">
       {tabs.map((tab) => (
-        <button
+        <Button
           key={tab}
           onClick={() => onChange(tab)}
           className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-medium transition
@@ -39,7 +41,7 @@ export default function FilterTabs({
               {counts[tab]}
             </span>
           )}
-        </button>
+        </Button>
       ))}
     </div>
   );

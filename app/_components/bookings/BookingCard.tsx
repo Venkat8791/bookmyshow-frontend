@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import StatusBadge from "./StatusBadge";
 import PaymentBadge from "./PaymentBadge";
 import Link from "next/link";
+import Button from "@/app/_components/common/Button";
 
 interface EnrichedBooking {
   booking: Booking;
@@ -46,8 +47,12 @@ export default function BookingCard({
       hour12: true,
     });
 
+  const isMoreThan4HoursAway =
+    show ? new Date(show.showTime).getTime() - Date.now() > 4 * 60 * 60 * 1000 : false;
+
   const canCancel =
-    booking.status === "PENDING" || booking.status === "CONFIRMED";
+    (booking.status === "PENDING" || booking.status === "CONFIRMED") &&
+    isMoreThan4HoursAway;
 
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden hover:border-gray-700 transition">
@@ -131,23 +136,23 @@ export default function BookingCard({
           {/* complete payment if pending */}
           {booking.status === "PENDING" &&
             booking.paymentStatus === "UNPAID" && (
-              <button
+              <Button
                 onClick={() => router.push(`/bookings/${booking.id}`)}
                 className="bg-red-500 hover:bg-red-600 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition"
               >
                 Complete Payment
-              </button>
+              </Button>
             )}
 
           {/* cancel button */}
           {canCancel && (
-            <button
+            <Button
               onClick={() => onCancel(booking.id)}
               disabled={cancelling === booking.id}
               className="text-gray-500 hover:text-red-400 text-xs transition disabled:opacity-50"
             >
               {cancelling === booking.id ? "Cancelling..." : "Cancel"}
-            </button>
+            </Button>
           )}
         </div>
       </div>
