@@ -8,8 +8,8 @@ import { movieService } from "@/app/services/movieService";
 import { showService } from "@/app/services/showService";
 import { Booking, Movie, Show } from "@/app/types";
 import axios from "axios";
-import Link from "next/link";
 import ErrorAlert from "@/app/_components/common/ErrorAlert";
+import StatusCard from "@/app/_components/common/StatusCard";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -54,7 +54,7 @@ export default function BookingConfirmationPage() {
         const movieRes = await movieService.getById(showRes.data.movieId);
         if (!isMounted.current) return;
         setMovie(movieRes.data);
-      } catch (err: any) {
+      } catch (err) {
         if (axios.isCancel(err)) return;
         if (isMounted.current) setError("Failed to load booking");
       } finally {
@@ -76,9 +76,10 @@ export default function BookingConfirmationPage() {
         paymentReference: `PAY_${Date.now()}`, // simulated reference
       });
       if (isMounted.current) setBooking(response.data);
-    } catch (err: any) {
+    } catch (err) {
       if (isMounted.current) {
-        setPayError(err.response?.data?.message || "Payment failed");
+        const message = axios.isAxiosError(err) ? err.response?.data?.message : undefined;
+        setPayError(message || "Payment failed");
       }
     } finally {
       if (isMounted.current) setPayLoading(false);
@@ -107,35 +108,12 @@ export default function BookingConfirmationPage() {
       {booking.status === "CONFIRMED" ? (
         <ConfirmedTicket show={show} movie={movie} booking={booking} />
       ) : booking.status === "CANCELLED" ? (
-        <div className="flex flex-col items-center text-center">
-          <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mb-4">
-            <svg
-              className="w-8 h-8 text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </div>
-          <h1 className="text-white text-xl font-bold mb-2">
-            Booking Cancelled
-          </h1>
-          <p className="text-gray-400 text-sm mb-6">
-            This booking has been cancelled
-          </p>
-          <Link
-            href="/"
-            className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-8 py-3 rounded-xl transition"
-          >
-            Book Again
-          </Link>
-        </div>
+        <StatusCard
+          variant="cancelled"
+          title="Booking Cancelled"
+          description="This booking has been cancelled"
+          action={{ label: "Book Again", href: "/" }}
+        />
       ) : (
         <PendingPayment
           booking={booking}

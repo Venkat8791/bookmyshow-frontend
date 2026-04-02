@@ -4,6 +4,7 @@ import useCountdown from "../hooks/useCountdown";
 import BookingSummaryCard from "./BookingSummaryCard";
 import ErrorAlert from "../common/ErrorAlert";
 import Button from "../common/Button";
+import StatusCard from "../common/StatusCard";
 import MovieInfo from "./MovieInfo";
 
 interface PendingPaymentProps {
@@ -29,34 +30,12 @@ export default function PendingPayment({
 
   if (isExpired) {
     return (
-      <div className="flex flex-col items-center text-center">
-        {/* expired icon */}
-        <div className="w-16 h-16 bg-red-500/10 border border-red-500/30 rounded-full flex items-center justify-center mb-4">
-          <svg
-            className="w-8 h-8 text-red-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </div>
-        <h1 className="text-white text-xl font-bold mb-2">Booking Expired</h1>
-        <p className="text-gray-400 text-sm mb-6">
-          Your seat hold has expired. Please select seats again.
-        </p>
-        <Button
-          onClick={() => router.back()}
-          className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-8 py-3 rounded-xl transition"
-        >
-          Select Seats Again
-        </Button>
-      </div>
+      <StatusCard
+        variant="expired"
+        title="Booking Expired"
+        description="Your seat hold has expired. Please select seats again."
+        action={{ label: "Select Seats Again", onClick: () => router.back() }}
+      />
     );
   }
 
