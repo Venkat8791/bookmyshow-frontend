@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/app/_components/common/Button";
+import ErrorAlert from "@/app/_components/common/ErrorAlert";
 import LoadingSpinner from "@/app/_components/common/LoadingSpinner";
 import BookingFooter from "@/app/_components/seats/BookingFooter";
 import SeatCanvas from "@/app/_components/seats/SeatCanvas";
@@ -148,15 +148,11 @@ export default function SeatLayoutPage() {
         className="flex items-center justify-center -mx-4 -my-6"
         style={{ height: "calc(100vh - 64px)" }}
       >
-        <div className="text-center">
-          <p className="text-red-400 mb-4">{error || "Failed to load"}</p>
-          <Button
-            onClick={() => router.back()}
-            className="text-gray-400 hover:text-white text-sm transition"
-          >
-            ← Go back
-          </Button>
-        </div>
+        <ErrorAlert
+          variant="page"
+          message={error || "Failed to load"}
+          action={{ label: "← Go back", onClick: () => router.back() }}
+        />
       </div>
     );
   }

@@ -9,6 +9,7 @@ import { showService } from "@/app/services/showService";
 import { Booking, Movie, Show } from "@/app/types";
 import axios from "axios";
 import Link from "next/link";
+import ErrorAlert from "@/app/_components/common/ErrorAlert";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -92,15 +93,11 @@ export default function BookingConfirmationPage() {
   // ── Error ────────────────────────────────────────────────────────────────
   if (error || !booking) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-64 text-center">
-        <p className="text-red-400 mb-4">{error || "Booking not found"}</p>
-        <Link
-          href="/"
-          className="text-gray-400 hover:text-white text-sm transition"
-        >
-          ← Go home
-        </Link>
-      </div>
+      <ErrorAlert
+        variant="page"
+        message={error || "Booking not found"}
+        action={{ label: "← Go home", href: "/" }}
+      />
     );
   }
 

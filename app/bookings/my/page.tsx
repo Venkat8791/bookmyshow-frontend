@@ -4,7 +4,7 @@ import BookingCard from "@/app/_components/bookings/BookingCard";
 import EmptyState from "@/app/_components/bookings/EmptyState";
 import FilterTabs from "@/app/_components/bookings/FilterTabs";
 import LoadingSpinner from "@/app/_components/common/LoadingSpinner";
-import Button from "@/app/_components/common/Button";
+import ErrorAlert from "@/app/_components/common/ErrorAlert";
 import { useAuth } from "@/app/context/AuthContext";
 import { bookingService } from "@/app/services/bookingService";
 import { movieService } from "@/app/services/movieService";
@@ -162,15 +162,11 @@ export default function MyBookingsPage() {
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-64 text-center">
-        <p className="text-red-400 mb-4">{error}</p>
-        <Button
-          onClick={() => window.location.reload()}
-          className="text-gray-400 hover:text-white text-sm transition"
-        >
-          Try again
-        </Button>
-      </div>
+      <ErrorAlert
+        variant="page"
+        message={error}
+        action={{ label: "Try again", onClick: () => window.location.reload() }}
+      />
     );
   }
 
